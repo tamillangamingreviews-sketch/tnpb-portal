@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TN PEAKY BLINDERS - RP Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <video autoplay loop muted playsinline id="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-gaming-abstract-cyberpunk-tunnel-41566-large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+
+    <div class="container">
+        <!-- STEP 1: INITIAL LOGIN SELECTION -->
+        <div id="step-1" class="card">
+            <h1>TN PEAKY BLINDERS</h1>
+            
+            <div class="tab-buttons">
+                <button id="tab-old-btn" class="active-tab" onclick="switchTab('old')">OLD MEMBER FORM</button>
+                <button id="tab-user-btn" onclick="switchTab('user')">MEMBER / ADMIN LOGIN</button>
+            </div>
+
+            <!-- Old Member Registration Entry -->
+            <div id="old-member-box">
+                <p class="subtitle">Enter Squad Credentials to Register</p>
+                <div class="form-group">
+                    <input type="text" id="common-user" placeholder="Common Username">
+                    <input type="password" id="common-pass" placeholder="Common Password">
+                    <button onclick="verifyCommonLogin()">ENTER REGISTRATION</button>
+                </div>
+            </div>
+
+            <!-- User / Admin Personal Login -->
+            <div id="user-login-box" class="hidden">
+                <p class="subtitle">Enter Personal Credentials</p>
+                <div class="form-group">
+                    <input type="text" id="personal-user" placeholder="Personal Username">
+                    <input type="password" id="personal-pass" placeholder="Password">
+                    <button onclick="loginPersonalUser()" class="btn-success">LOGIN TO DASHBOARD</button>
+                </div>
+            </div>
+
+            <p id="login-error" class="error-msg"></p>
+        </div>
+
+        <!-- STEP 2: MEMBER REGISTRATION FORM -->
+        <div id="step-2" class="card hidden">
+            <h2 class="welcome-heading">WELCOME FOR ALL OLD TNPB MEMBERS</h2>
+            <form id="member-form" onsubmit="submitMemberData(event)">
+                <div class="form-grid">
+                    <input type="text" id="game-name" placeholder="Game User Name" required>
+                    <input type="number" id="game-level" placeholder="Game Level" required>
+                    <input type="text" id="game-rank" placeholder="Rank / Member Position" required>
+                    <input type="text" id="fam-name" placeholder="Current Fam Name" required>
+                </div>
+                <hr class="divider">
+                <h3>Create Personal Credentials</h3>
+                <div class="form-grid">
+                    <input type="text" id="new-user" placeholder="New Personal Username" required>
+                    <input type="password" id="new-pass" placeholder="New Personal Password" required>
+                </div>
+                <button type="submit" class="btn-success">SUBMIT FOR APPROVAL</button>
+            </form>
+        </div>
+
+        <!-- STEP 3: SUCCESS / PENDING NOTICE -->
+        <div id="step-3" class="card hidden">
+            <h2>Registration Submitted!</h2>
+            <p>Unga details successfully send aaiduchu. Admin accept pannadhum login aagum!</p>
+            <br>
+            <button onclick="location.reload()">Back to Login</button>
+        </div>
+
+        <!-- STEP 4: MEMBER / ADMIN DASHBOARD (MATCHING YOUR SCREENSHOT) -->
+        <div id="member-dashboard" class="card hidden">
+            <div class="role-badge" id="dash-role-badge">ROLE: MEMBER</div>
+            
+            <h2>WELCOME BACK, <span id="dash-player-name" style="color:#38bdf8;"></span>!</h2>
+            
+            <div class="user-stats">
+                <p><strong>Game Name:</strong> <span id="dash-game-name"></span></p>
+                <p><strong>Level:</strong> <span id="dash-level"></span></p>
+                <p><strong>Rank:</strong> <span id="dash-rank"></span></p>
+                <p><strong>Fam Name:</strong> <span id="dash-fam"></span></p>
+                <p><strong>Status:</strong> <span style="color:#22c55e;">Approved Member</span></p>
+            </div>
+
+            <!-- Notice Banner Button -->
+            <button onclick="openNoticeModal()" class="btn-notice">📢 Notice for TNPB members</button>
+
+            <!-- Admin Only Control Panel Button -->
+            <div id="admin-only-tools" class="hidden">
+                <button onclick="showAdminPanel()" class="btn-admin">⚙️ OPEN ADMIN PANEL</button>
+            </div>
+
+            <button onclick="location.reload()" class="btn-danger">LOGOUT</button>
+        </div>
+
+        <!-- ADMIN PANEL MODAL -->
+        <div id="admin-panel" class="card wide hidden">
+            <h2>TNPB Admin Control Panel ⚙️</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Game Name</th>
+                            <th>Level</th>
+                            <th>Rank</th>
+                            <th>Fam Name</th>
+                            <th>User</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+            </div>
+            <button onclick="closeAdminPanel()">Close Admin View</button>
+        </div>
+
+        <!-- ANNOUNCEMENT NOTICE MODAL (TAMIL + ENGLISH) -->
+        <div id="notice-modal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h2>📢 Notice for TNPB Members</h2>
+                <div class="modal-content">
+                    <div class="notice-section">
+                        <h4>🇬🇧 English Announcement:</h4>
+                        <p>Sorry for all TNPB members 🙏. Due to some technical issues 🛠️ and family development reasons 📈, the <strong>TNPB Fam</strong> is temporarily closed 🚫.</p>
+                        <p>Until further notice, all TNPB members are humbly requested to join the <strong>TNB (TN BROTHERS)</strong> family 🤝.</p>
+                        <p>Once TNPB family development is completed, updates will be announced on this website and on Discord 🎮. Thank you for your patience! ❤️</p>
+                    </div>
+                    <hr class="divider">
+                    <div class="notice-section">
+                        <h4>🇮🇳 Tamil Announcement:</h4>
+                        <p>TNPB உறுப்பினர்கள் அனைவருக்கும் மன்னிக்கவும் 🙏. சில தொழில்நுட்ப கோளாறுகள் 🛠️ மற்றும் Fam Development காரணங்களால், தற்காலிகமாக TNPB Fam மூடப்பட்டுள்ளது 🚫.</p>
+                        <p>அதுவரை அனைத்து TNPB உறுப்பினர்களும் <strong>TNB (TN BROTHERS)</strong> Fam-இல் இணையுமாறு தாழ்மையுடன் கேட்டுக்கொள்ளப்படுகிறீர்கள் 🤝.</p>
+                        <p>TNPB Fam பணிகள் முடிந்த பிறகு, இந்த Website மற்றும் Discord-இல் அறிவிக்கப்படும் 🎮. அதுவரை அனைவரும் பொறுமை காத்து TN BROTHERS Fam-இல் இணையுமாறு கேட்டுக்கொள்கிறோம்! ❤️</p>
+                    </div>
+                </div>
+                <button onclick="closeNoticeModal()" class="btn-danger">Close Notice</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

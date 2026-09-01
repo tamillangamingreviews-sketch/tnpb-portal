@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -2;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(11, 19, 36, 0.95);
+    border: 1px solid #38bdf8;
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);
+    border-radius: 12px;
+    padding: 30px 25px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+.role-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #0284c7;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card.wide {
+    max-width: 950px;
+    width: 95%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+h1 { color: #38bdf8; letter-spacing: 2px; margin-bottom: 15px; }
+.subtitle { color: #94a3b8; margin-bottom: 20px; font-size: 14px; }
+.welcome-heading { color: #facc15; font-size: 16px; margin-bottom: 20px; border-bottom: 1px solid #facc15; padding-bottom: 10px; }
+
+.tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab-buttons button { background: #1e293b; border: 1px solid #334155; margin-top: 0; }
+.tab-buttons button.active-tab { background: #0284c7; border-color: #38bdf8; }
+
+.form-group, .form-grid { display: flex; flex-direction: column; gap: 12px; }
+
+input {
+    width: 100%;
+    padding: 12px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+}
+
+input:focus { border-color: #38bdf8; outline: none; }
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #0284c7;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover { background: #0369a1; }
+.btn-success { background: #16a34a; }
+.btn-danger { background: #dc2626; }
+.btn-admin { background: #eab308; color: #000; }
+.btn-notice { background: #8b5cf6; margin-bottom: 10px; }
+.btn-notice:hover { background: #7c3aed; }
+
+.hidden { display: none !important; }
+.error-msg { color: #ef4444; font-size: 13px; margin-top: 10px; }
+.divider { border: 0; height: 1px; background: #334155; margin: 15px 0; }
+
+.user-stats {
+    text-align: left;
+    background: rgba(15, 23, 42, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #1e293b;
+}
+
+table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+th, td { padding: 8px; border: 1px solid #334155; text-align: left; font-size: 12px; }
+th { background: #1e293b; color: #38bdf8; }
+.action-btn { padding: 4px 8px; width: auto; font-size: 11px; margin: 2px; }
+
+/* Modal Notice UI */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 200;
+}
+.modal-card {
+    background: #0f172a;
+    border: 2px solid #8b5cf6;
+    border-radius: 12px;
+    padding: 25px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    text-align: left;
+}
+.modal-card h2 { color: #a78bfa; margin-bottom: 15px; text-align: center; }
+.notice-section h4 { color: #facc15; margin-bottom: 8px; }
+.notice-section p { font-size: 13px; line-height: 1.5; color: #cbd5e1; margin-bottom: 8px; }
