@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -16,11 +16,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Switch Between Form Tabs (Old, Member, Visitor)
+// Tab Switcher
 window.switchTab = function(tab) {
     document.getElementById('login-error').innerText = '';
-    
-    // Hide all tab views
     document.getElementById('old-member-box').classList.add('hidden');
     document.getElementById('user-login-box').classList.add('hidden');
     document.getElementById('visitor-login-box').classList.add('hidden');
@@ -41,7 +39,7 @@ window.switchTab = function(tab) {
     }
 };
 
-// Verify Common Squad Credentials
+// Verify Common Credentials
 window.verifyCommonLogin = function() {
     const user = document.getElementById('common-user').value.trim();
     const pass = document.getElementById('common-pass').value.trim();
@@ -67,8 +65,21 @@ window.loginVisitor = function() {
     });
 };
 
-// Cloud Login Check (Super Admin + Firestore Users)
-window.loginPersonalUser = async function() {
+// Real-Time Cloud Personal Login Check
+window.allMembersList = [];
+
+// Realtime Listener - Fetch data instantly from Cloud for all devices
+onSnapshot(collection(db, "members"), (snapshot) => {
+    window.allMembersList = [];
+    snapshot.forEach((docSnap) => {
+        window.allMembersList.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    if (!document.getElementById('admin-panel').classList.contains('hidden')) {
+        renderAdminTableUI();
+    }
+});
+
+window.loginPersonalUser = function() {
     const user = document.getElementById('personal-user').value.trim();
     const pass = document.getElementById('personal-pass').value.trim();
     const errorMsg = document.getElementById('login-error');
@@ -86,34 +97,22 @@ window.loginPersonalUser = async function() {
         return;
     }
 
-    try {
-        const querySnapshot = await getDocs(collection(db, "members"));
-        let foundUser = null;
-        querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            if (data.personalUser === user && data.personalPass === pass) {
-                foundUser = { id: docSnap.id, ...data };
-            }
-        });
+    const foundUser = window.allMembersList.find(m => m.personalUser === user && m.personalPass === pass);
 
-        if (foundUser) {
-            if (foundUser.status === 'Approved') {
-                openDashboard(foundUser);
-            } else {
-                errorMsg.innerText = "Account Pending! Admin approval required.";
-            }
+    if (foundUser) {
+        if (foundUser.status === 'Approved') {
+            openDashboard(foundUser);
         } else {
-            errorMsg.innerText = "Incorrect Personal Username or Password!";
+            errorMsg.innerText = "Account Pending! Admin approval required.";
         }
-    } catch (e) {
-        errorMsg.innerText = "Database connection error!";
+    } else {
+        errorMsg.innerText = "Incorrect Personal Username or Password!";
     }
 };
 
 function openDashboard(user) {
     document.getElementById('step-1').classList.add('hidden');
     document.getElementById('member-dashboard').classList.remove('hidden');
-
     document.getElementById('dash-player-name').innerText = user.personalUser;
     
     const role = user.role || "MEMBER";
@@ -142,7 +141,7 @@ function openDashboard(user) {
     }
 }
 
-// Submit Member Form to Cloud Firestore
+// Submit Member Form directly to Firestore Cloud
 window.submitMemberData = async function(e) {
     e.preventDefault();
 
@@ -170,58 +169,52 @@ window.submitMemberData = async function(e) {
 // Admin Controls
 window.showAdminPanel = function() {
     document.getElementById('admin-panel').classList.remove('hidden');
-    renderAdminTable();
+    renderAdminTableUI();
 };
 
 window.closeAdminPanel = function() {
     document.getElementById('admin-panel').classList.add('hidden');
 };
 
-async function renderAdminTable() {
+function renderAdminTableUI() {
     const tbody = document.getElementById('admin-table-body');
-    tbody.innerHTML = '<tr><td colspan="8">Loading Members...</td></tr>';
+    tbody.innerHTML = '';
 
-    try {
-        const querySnapshot = await getDocs(collection(db, "members"));
-        tbody.innerHTML = '';
-
-        querySnapshot.forEach((docSnap) => {
-            const member = docSnap.data();
-            const id = docSnap.id;
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${member.gameName}</td>
-                <td>${member.level}</td>
-                <td>${member.rank}</td>
-                <td>${member.famName}</td>
-                <td>${member.personalUser}</td>
-                <td><strong style="color:${member.role==='ADMIN'?'#eab308':'#38bdf8'}">${member.role || 'MEMBER'}</strong></td>
-                <td style="color:${member.status === 'Approved' ? '#22c55e' : '#eab308'}">${member.status}</td>
-                <td>
-                    ${member.status === 'Pending' ? `<button onclick="approveMember('${id}')" class="action-btn btn-success">Accept</button>` : ''}
-                    ${member.role !== 'ADMIN' ? `<button onclick="makeAdmin('${id}')" class="action-btn btn-admin">Make Admin</button>` : ''}
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
-    } catch (e) {
-        tbody.innerHTML = '<tr><td colspan="8">Failed to load data.</td></tr>';
+    if (window.allMembersList.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8">No Members Registered Yet in Cloud.</td></tr>';
+        return;
     }
+
+    window.allMembersList.forEach((member) => {
+        const id = member.id;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${member.gameName}</td>
+            <td>${member.level}</td>
+            <td>${member.rank}</td>
+            <td>${member.famName}</td>
+            <td>${member.personalUser}</td>
+            <td><strong style="color:${member.role==='ADMIN'?'#eab308':'#38bdf8'}">${member.role || 'MEMBER'}</strong></td>
+            <td style="color:${member.status === 'Approved' ? '#22c55e' : '#eab308'}">${member.status}</td>
+            <td>
+                ${member.status === 'Pending' ? `<button onclick="approveMember('${id}')" class="action-btn btn-success">Accept</button>` : ''}
+                ${member.role !== 'ADMIN' ? `<button onclick="makeAdmin('${id}')" class="action-btn btn-admin">Make Admin</button>` : ''}
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
 }
 
 window.approveMember = async function(docId) {
     const memberRef = doc(db, "members", docId);
     await updateDoc(memberRef, { status: "Approved" });
-    renderAdminTable();
 };
 
 window.makeAdmin = async function(docId) {
     const memberRef = doc(db, "members", docId);
     await updateDoc(memberRef, { role: "ADMIN", status: "Approved" });
     alert("User Promoted to Cloud Admin!");
-    renderAdminTable();
 };
 
 window.openNoticeModal = function() { document.getElementById('notice-modal').classList.remove('hidden'); };
 window.closeNoticeModal = function() { document.getElementById('notice-modal').classList.add('hidden'); };
-
