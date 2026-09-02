@@ -81,8 +81,8 @@ h1 { color: #38bdf8; letter-spacing: 2px; margin-bottom: 15px; }
 .subtitle { color: #94a3b8; margin-bottom: 20px; font-size: 14px; }
 .welcome-heading { color: #facc15; font-size: 16px; margin-bottom: 20px; border-bottom: 1px solid #facc15; padding-bottom: 10px; }
 
-.tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
-.tab-buttons button { background: #1e293b; border: 1px solid #334155; margin-top: 0; }
+.tab-buttons { display: flex; gap: 6px; margin-bottom: 20px; }
+.tab-buttons button { background: #1e293b; border: 1px solid #334155; margin-top: 0; font-size: 12px; }
 .tab-buttons button.active-tab { background: #0284c7; border-color: #38bdf8; }
 
 .form-group, .form-grid { display: flex; flex-direction: column; gap: 12px; }
@@ -114,6 +114,8 @@ button {
 
 button:hover { background: #0369a1; }
 .btn-success { background: #16a34a; }
+.btn-visitor { background: #8b5cf6; }
+.btn-visitor:hover { background: #7c3aed; }
 .btn-danger { background: #dc2626; }
 .btn-admin { background: #eab308; color: #000; }
 .btn-notice { background: #8b5cf6; margin-bottom: 10px; }
