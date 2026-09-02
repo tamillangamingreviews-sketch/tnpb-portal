@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Unga Exact Firebase Configuration
+// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrGyZQmhx-83iqUt1SBsFDXECOEFYNQs0",
   authDomain: "tnpb-portal.firebaseapp.com",
@@ -16,19 +16,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Switch Between Form Tabs
+// Switch Between Form Tabs (Old, Member, Visitor)
 window.switchTab = function(tab) {
     document.getElementById('login-error').innerText = '';
+    
+    // Hide all tab views
+    document.getElementById('old-member-box').classList.add('hidden');
+    document.getElementById('user-login-box').classList.add('hidden');
+    document.getElementById('visitor-login-box').classList.add('hidden');
+    
+    document.getElementById('tab-old-btn').classList.remove('active-tab');
+    document.getElementById('tab-user-btn').classList.remove('active-tab');
+    document.getElementById('tab-visitor-btn').classList.remove('active-tab');
+
     if(tab === 'old') {
         document.getElementById('old-member-box').classList.remove('hidden');
-        document.getElementById('user-login-box').classList.add('hidden');
         document.getElementById('tab-old-btn').classList.add('active-tab');
-        document.getElementById('tab-user-btn').classList.remove('active-tab');
-    } else {
-        document.getElementById('old-member-box').classList.add('hidden');
+    } else if(tab === 'user') {
         document.getElementById('user-login-box').classList.remove('hidden');
         document.getElementById('tab-user-btn').classList.add('active-tab');
-        document.getElementById('tab-old-btn').classList.remove('active-tab');
+    } else if(tab === 'visitor') {
+        document.getElementById('visitor-login-box').classList.remove('hidden');
+        document.getElementById('tab-visitor-btn').classList.add('active-tab');
     }
 };
 
@@ -45,13 +54,26 @@ window.verifyCommonLogin = function() {
     }
 };
 
+// Visitor Quick Login
+window.loginVisitor = function() {
+    const visitorName = document.getElementById('visitor-name').value.trim() || "Guest Visitor";
+    openDashboard({
+        personalUser: visitorName,
+        gameName: "Visitor Mode",
+        level: "N/A",
+        rank: "Guest",
+        famName: "Public Viewer",
+        role: "VISITOR"
+    });
+};
+
 // Cloud Login Check (Super Admin + Firestore Users)
 window.loginPersonalUser = async function() {
     const user = document.getElementById('personal-user').value.trim();
     const pass = document.getElementById('personal-pass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
-    // Hardcoded Super Admin Check
+    // Super Admin Check
     if (user === "ponnarasu.17" && pass === "Pilot@17") {
         openDashboard({
             personalUser: "ponnarasu.17",
@@ -93,20 +115,30 @@ function openDashboard(user) {
     document.getElementById('member-dashboard').classList.remove('hidden');
 
     document.getElementById('dash-player-name').innerText = user.personalUser;
-    document.getElementById('dash-game-name').innerText = user.gameName;
-    document.getElementById('dash-level').innerText = user.level;
-    document.getElementById('dash-rank').innerText = user.rank;
-    document.getElementById('dash-fam').innerText = user.famName;
-
+    
     const role = user.role || "MEMBER";
     document.getElementById('dash-role-badge').innerText = `ROLE: ${role}`;
 
-    if (role === "ADMIN") {
-        document.getElementById('dash-role-badge').style.background = "#eab308";
-        document.getElementById('dash-role-badge').style.color = "#000";
-        document.getElementById('admin-only-tools').classList.remove('hidden');
-    } else {
+    if (role === "VISITOR") {
+        document.getElementById('dash-role-badge').style.background = "#8b5cf6";
+        document.getElementById('member-info-panel').classList.add('hidden');
+        document.getElementById('visitor-info-panel').classList.remove('hidden');
         document.getElementById('admin-only-tools').classList.add('hidden');
+    } else {
+        document.getElementById('dash-game-name').innerText = user.gameName;
+        document.getElementById('dash-level').innerText = user.level;
+        document.getElementById('dash-rank').innerText = user.rank;
+        document.getElementById('dash-fam').innerText = user.famName;
+        document.getElementById('member-info-panel').classList.remove('hidden');
+        document.getElementById('visitor-info-panel').classList.add('hidden');
+
+        if (role === "ADMIN") {
+            document.getElementById('dash-role-badge').style.background = "#eab308";
+            document.getElementById('dash-role-badge').style.color = "#000";
+            document.getElementById('admin-only-tools').classList.remove('hidden');
+        } else {
+            document.getElementById('admin-only-tools').classList.add('hidden');
+        }
     }
 }
 
@@ -192,3 +224,4 @@ window.makeAdmin = async function(docId) {
 
 window.openNoticeModal = function() { document.getElementById('notice-modal').classList.remove('hidden'); };
 window.closeNoticeModal = function() { document.getElementById('notice-modal').classList.add('hidden'); };
+
