@@ -19,8 +19,9 @@
             <h1>TN PEAKY BLINDERS</h1>
             
             <div class="tab-buttons">
-                <button id="tab-old-btn" class="active-tab" onclick="switchTab('old')">OLD MEMBER FORM</button>
-                <button id="tab-user-btn" onclick="switchTab('user')">MEMBER / ADMIN LOGIN</button>
+                <button id="tab-old-btn" class="active-tab" onclick="switchTab('old')">OLD FORM</button>
+                <button id="tab-user-btn" onclick="switchTab('user')">LOGIN</button>
+                <button id="tab-visitor-btn" onclick="switchTab('visitor')">VISITOR</button>
             </div>
 
             <!-- Old Member Registration Entry -->
@@ -43,6 +44,15 @@
                 </div>
             </div>
 
+            <!-- Visitor Quick Access Box -->
+            <div id="visitor-login-box" class="hidden">
+                <p class="subtitle">Guest / Visitor Access Portal</p>
+                <div class="form-group">
+                    <input type="text" id="visitor-name" placeholder="Enter Your Name / In-Game Name">
+                    <button onclick="loginVisitor()" class="btn-visitor">ENTER AS VISITOR 👁️</button>
+                </div>
+            </div>
+
             <p id="login-error" class="error-msg"></p>
         </div>
 
@@ -57,7 +67,7 @@
                     <input type="text" id="fam-name" placeholder="Current Fam Name" required>
                 </div>
                 <hr class="divider">
-                <h3>Create Personal Credentials</h3>
+                <h3 style="color:#38bdf8; margin-bottom:10px;">Create Personal Credentials</h3>
                 <div class="form-grid">
                     <input type="text" id="new-user" placeholder="New Personal Username" required>
                     <input type="password" id="new-pass" placeholder="New Personal Password" required>
@@ -69,8 +79,7 @@
         <!-- STEP 3: SUCCESS / PENDING NOTICE -->
         <div id="step-3" class="card hidden">
             <h2>Registration Submitted!</h2>
-            <p>Unga details successfully send aaiduchu. Admin accept pannadhum login aagum!</p>
-            <br>
+            <p style="color:#cbd5e1; margin:15px 0;">Unga details successfully send aaiduchu. Admin accept pannadhum login aagum!</p>
             <button onclick="location.reload()">Back to Login</button>
         </div>
 
@@ -80,7 +89,7 @@
             
             <h2>WELCOME BACK, <span id="dash-player-name" style="color:#38bdf8;"></span>!</h2>
             
-            <div class="user-stats">
+            <div id="member-info-panel" class="user-stats">
                 <p><strong>Game Name:</strong> <span id="dash-game-name"></span></p>
                 <p><strong>Level:</strong> <span id="dash-level"></span></p>
                 <p><strong>Rank:</strong> <span id="dash-rank"></span></p>
@@ -88,12 +97,16 @@
                 <p><strong>Status:</strong> <span style="color:#22c55e;">Approved Member</span></p>
             </div>
 
+            <div id="visitor-info-panel" class="user-stats hidden">
+                <p style="text-align:center; color:#a78bfa;">👋 Welcome Visitor! TNPB Public Hub Access Mode Active.</p>
+            </div>
+
             <!-- Notice Banner Button -->
             <button onclick="openNoticeModal()" class="btn-notice">📢 Notice for TNPB members</button>
 
             <!-- Admin Only Control Panel Button -->
             <div id="admin-only-tools" class="hidden">
-                <button onclick="showAdminPanel()" class="btn-admin">⚙️ OPEN ADMIN PANEL</button>
+                <button onclick="showAdminPanel()" class="btn-admin" style="margin-bottom:10px;">⚙️ OPEN ADMIN PANEL</button>
             </div>
 
             <button onclick="location.reload()" class="btn-danger">LOGOUT</button>
@@ -102,7 +115,7 @@
         <!-- ADMIN PANEL MODAL -->
         <div id="admin-panel" class="card wide hidden">
             <h2>TNPB Admin Control Panel ⚙️</h2>
-            <div class="table-responsive">
+            <div style="overflow-x:auto;">
                 <table>
                     <thead>
                         <tr>
@@ -128,7 +141,7 @@
         <div id="notice-modal" class="modal-overlay hidden">
             <div class="modal-card">
                 <h2>📢 Notice for TNPB Members</h2>
-                <div class="modal-content">
+                <div>
                     <div class="notice-section">
                         <h4>🇬🇧 English Announcement:</h4>
                         <p>Sorry for all TNPB members 🙏. Due to some technical issues 🛠️ and family development reasons 📈, the <strong>TNPB Fam</strong> is temporarily closed 🚫.</p>
@@ -152,3 +165,4 @@
     <script type="module" src="app.js"></script>
 </body>
 </html>
+
