@@ -9,6 +9,9 @@
 </head>
 <body>
 
+    <!-- Gaming Animated Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
     <div class="container">
         <!-- HEADER / TITLE -->
         <header>
@@ -67,7 +70,7 @@
                     <input type="password" id="new-pass" placeholder="New Password" required>
                     <input type="password" id="confirm-pass" placeholder="Confirm Password" required>
                 </div>
-                <button type="button" onclick="window.submitMemberForm()" class="btn-success" style="margin-top:20px;">SUBMIT FOR APPROVAL</button>
+                <button type="button" id="submit-btn" class="btn-success" style="margin-top:20px;">SUBMIT FOR APPROVAL</button>
             </form>
         </div>
 
@@ -154,7 +157,7 @@
 
     </div>
 
-    <!-- Firebase SDK Import & App JS -->
+    <!-- Firebase SDK Import & Main Application JS -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
