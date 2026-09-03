@@ -56,7 +56,7 @@
             <p id="login-error" class="error-msg"></p>
         </div>
 
-        <!-- STEP 2: MEMBER REGISTRATION FORM -->
+      <!-- STEP 2: MEMBER REGISTRATION FORM -->
         <div id="step-2" class="card hidden">
             <h2>MEMBER REGISTRATION</h2>
             <form id="member-form">
@@ -73,7 +73,8 @@
                     <input type="password" id="new-pass" placeholder="New Password" required>
                     <input type="password" id="confirm-pass" placeholder="Confirm Password" required>
                 </div>
-                <button type="submit" class="btn-success" style="margin-top:15px;">SUBMIT FOR APPROVAL</button>
+                <!-- type="button" மற்றும் onclick நேரடியாக சேர்க்கப்பட்டுள்ளது -->
+                <button type="button" onclick="submitMemberForm()" class="btn-success" style="margin-top:20px;">SUBMIT FOR APPROVAL</button>
             </form>
         </div>
 
