@@ -69,6 +69,50 @@ window.verifyCommonLogin = function() {
     }
 };
 
+// Submit Member Form Direct Execution
+window.submitMemberForm = async function() {
+    const gameName = document.getElementById('game-name').value.trim();
+    const gameLevel = document.getElementById('game-level').value.trim();
+    const gameRank = document.getElementById('game-rank').value.trim();
+    const famName = document.getElementById('fam-name').value.trim();
+    const newUser = document.getElementById('new-user').value.trim();
+    const newPass = document.getElementById('new-pass').value.trim();
+    const confirmPass = document.getElementById('confirm-pass').value.trim();
+
+    // Check empty fields
+    if (!gameName || !gameLevel || !gameRank || !famName || !newUser || !newPass || !confirmPass) {
+        alert("Please fill all fields! / அனைத்து விவரங்களையும் நிரப்பவும்!");
+        return;
+    }
+
+    // Check Password match
+    if (newPass !== confirmPass) {
+        alert("Passwords do not match! / கடவுச்சொல் பொருந்தவில்லை!");
+        return;
+    }
+
+    const newMember = {
+        gameName: gameName,
+        level: gameLevel,
+        rank: gameRank,
+        famName: famName,
+        personalUser: newUser,
+        personalPass: newPass,
+        status: 'Pending',
+        role: 'MEMBER',
+        createdAt: new Date().toISOString()
+    };
+
+    try {
+        await addDoc(collection(db, "members"), newMember);
+        document.getElementById('step-2').classList.add('hidden');
+        document.getElementById('step-3').classList.remove('hidden');
+    } catch (err) {
+        console.error("Cloud Storage Error: ", err);
+        alert("Error saving data to Cloud Database: " + err.message);
+    }
+};
+
 // Visitor Direct Access
 window.loginVisitor = function() {
     const visitorName = document.getElementById('visitor-name').value.trim() || "Guest Gamer";
@@ -152,45 +196,6 @@ function openDashboard(user) {
         }
     }
 }
-
-// Form Submit Event Listener with Confirm Password Check
-document.addEventListener('DOMContentLoaded', () => {
-    const memberForm = document.getElementById('member-form');
-    if (memberForm) {
-        memberForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const newPass = document.getElementById('new-pass').value.trim();
-            const confirmPass = document.getElementById('confirm-pass').value.trim();
-
-            if (newPass !== confirmPass) {
-                alert("Passwords do not match! / கடவுச்சொல் பொருந்தவில்லை!");
-                return;
-            }
-
-            const newMember = {
-                gameName: document.getElementById('game-name').value,
-                level: document.getElementById('game-level').value,
-                rank: document.getElementById('game-rank').value,
-                famName: document.getElementById('fam-name').value,
-                personalUser: document.getElementById('new-user').value.trim(),
-                personalPass: newPass,
-                status: 'Pending',
-                role: 'MEMBER',
-                createdAt: new Date().toISOString()
-            };
-
-            try {
-                await addDoc(collection(db, "members"), newMember);
-                document.getElementById('step-2').classList.add('hidden');
-                document.getElementById('step-3').classList.remove('hidden');
-            } catch (err) {
-                console.error("Cloud Storage Error: ", err);
-                alert("Error saving data to Cloud Database: " + err.message);
-            }
-        });
-    }
-});
 
 // Admin Control Panel UI Actions
 window.showAdminPanel = function() {
