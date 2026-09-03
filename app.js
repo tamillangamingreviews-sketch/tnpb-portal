@@ -12,9 +12,9 @@ const firebaseConfig = {
   measurementId: "G-FZN9MTMKGM"
 };
 
-// Initialize Firebase & Firestore
+// Initialize Firebase & Firestore with Explicit Default Database
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getFirestore(app, "(default)");
 
 // Global Array for Cloud Sync
 window.allMembersList = [];
@@ -30,6 +30,8 @@ onSnapshot(collection(db, "members"), (snapshot) => {
     if (adminPanel && !adminPanel.classList.contains('hidden')) {
         renderAdminTableUI();
     }
+}, (error) => {
+    console.error("Firestore Listener Error: ", error);
 });
 
 // UI Navigation Tab Switcher
@@ -79,15 +81,13 @@ window.submitMemberForm = async function() {
         const newPass = document.getElementById('new-pass').value.trim();
         const confirmPass = document.getElementById('confirm-pass').value.trim();
 
-        // Check empty fields
         if (!gameName || !gameLevel || !gameRank || !famName || !newUser || !newPass || !confirmPass) {
-            alert("Please fill all fields! / அனைத்து விவரங்களையும் நிரப்பவும்!");
+            alert("Please fill all fields!");
             return;
         }
 
-        // Check Password match
         if (newPass !== confirmPass) {
-            alert("Passwords do not match! / கடவுச்சொல் பொருந்தவில்லை!");
+            alert("Passwords do not match!");
             return;
         }
 
@@ -131,7 +131,6 @@ window.loginPersonalUser = function() {
     const pass = document.getElementById('personal-pass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
-    // Super Admin Master Verification
     if (user === "ponnarasu.17" && pass === "Pilot@17") {
         openDashboard({
             personalUser: "ponnarasu.17",
