@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
-
+/* --- GLOBAL RESETS & FONTS --- */
 * {
     margin: 0;
     padding: 0;
@@ -8,143 +7,131 @@
 }
 
 body {
-    background: #05050a;
-    color: #fff;
+    background-color: #090d16;
+    color: #ffffff;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
-    position: relative;
 }
 
-/* Background Video & Cyber Overlay */
-#bg-video {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -2;
-    object-fit: cover;
-    filter: brightness(0.4) contrast(1.2) blur(2px);
-}
-
-.video-overlay {
+/* --- ANIMATED BACKGROUND CANVAS --- */
+#bg-canvas {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(15, 23, 42, 0.6) 0%, rgba(5, 5, 10, 0.95) 100%);
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
+    background: radial-gradient(circle at center, #0f172a 0%, #090d16 100%);
 }
 
+/* --- MAIN CONTAINER --- */
 .container {
     width: 100%;
-    max-width: 500px;
+    max-width: 850px;
     padding: 20px;
-    z-index: 10;
+    z-index: 1;
 }
 
-/* Glassmorphism Card Design */
-.card {
-    background: rgba(13, 18, 30, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: 20px;
-    padding: 35px 30px;
-    box-shadow: 0 0 30px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.05);
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.card.wide {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* Cyberpunk Neon Titles */
-h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2rem;
+/* --- HEADER & GLOW EFFECTS --- */
+header {
     text-align: center;
+    margin-bottom: 25px;
+}
+
+.glow-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
     color: #00f0ff;
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.7), 0 0 20px rgba(0, 240, 255, 0.4);
+    text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 20px;
-}
-
-h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    color: #f43f5e;
-    text-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
-    text-align: center;
-    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.7),
+                 0 0 20px rgba(0, 240, 255, 0.5),
+                 0 0 40px rgba(0, 240, 255, 0.3);
 }
 
 .subtitle {
-    text-align: center;
+    font-size: 1rem;
     color: #94a3b8;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+    font-weight: 600;
 }
 
-/* Gamers Tab Buttons */
-.tab-buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 5px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.tab-buttons button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: transparent;
-    color: #94a3b8;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    border-radius: 8px;
-    cursor: pointer;
+/* --- GLASSMORPHISM CARD DESIGN --- */
+.card {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5),
+                inset 0 0 15px rgba(0, 240, 255, 0.05);
     transition: all 0.3s ease;
 }
 
-.tab-buttons button.active-tab {
-    background: linear-gradient(135deg, #00f0ff, #7000ff);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+/* --- TAB HEADER & BUTTONS --- */
+.tab-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Modern Inputs */
-.form-group, .form-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 12px 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.tab-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.active-tab {
+    background: rgba(0, 240, 255, 0.15) !important;
+    color: #00f0ff !important;
+    border: 1px solid #00f0ff !important;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+/* --- FORM ELEMENTS & INPUTS --- */
+.tab-content h3, .card h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: #f3f4f6;
+    margin-bottom: 15px;
 }
 
 .form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-@media(max-width: 500px) {
-    .form-grid { grid-template-columns: 1fr; }
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
 input {
     width: 100%;
-    padding: 14px 18px;
-    background: rgba(5, 10, 20, 0.8);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 8px;
     color: #fff;
     font-size: 1rem;
     outline: none;
@@ -153,154 +140,195 @@ input {
 
 input:focus {
     border-color: #00f0ff;
-    box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
-    background: rgba(10, 20, 35, 0.9);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
 }
 
-/* Neon Glow Buttons */
+/* --- BUTTON STYLES --- */
 button {
     width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.95rem;
+    padding: 12px;
+    font-size: 1rem;
     font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 1px;
 }
 
+.btn-primary {
+    background: linear-gradient(135deg, #00f0ff, #3b82f6);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+}
+
 .btn-success {
-    background: linear-gradient(135deg, #00f0ff, #0072ff);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    background: linear-gradient(135deg, #22c55e, #10b981);
+    color: #000;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
 }
 
 .btn-success:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-}
-
-.btn-visitor {
-    background: linear-gradient(135deg, #8b5cf6, #d946ef);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-}
-
-.btn-admin {
-    background: linear-gradient(135deg, #f59e0b, #ef4444);
-    color: #fff;
-}
-
-.btn-notice {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: #fff;
-    margin-bottom: 12px;
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.7);
 }
 
 .btn-danger {
-    background: rgba(239, 68, 68, 0.2);
-    border: 1px solid #ef4444;
-    color: #ef4444;
-}
-
-.btn-danger:hover {
-    background: #ef4444;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
     color: #fff;
 }
 
-/* Dashboard & Stats Card */
-.role-badge {
-    display: inline-block;
-    padding: 6px 16px;
-    background: rgba(0, 240, 255, 0.15);
-    border: 1px solid #00f0ff;
-    color: #00f0ff;
-    border-radius: 20px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 15px;
-    text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+.btn-danger:hover {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
 }
 
-.user-stats {
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.btn-admin {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #000;
 }
 
-.user-stats p {
+.btn-admin:hover {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+}
+
+/* --- DASHBOARD & PROFILE STYLES --- */
+.dash-header {
     display: flex;
     justify-content: space-between;
-    font-size: 1.1rem;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    padding-bottom: 8px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.user-stats p:last-child { border-bottom: none; }
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    border: 1px solid #00f0ff;
+    background: rgba(0, 240, 255, 0.15);
+    color: #00f0ff;
+}
 
-/* Admin Table Styling */
+.profile-card {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 18px;
+    border-radius: 10px;
+    border-left: 4px solid #00f0ff;
+}
+
+.profile-card p {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+}
+
+.admin-box {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- ADMIN TABLE STYLES --- */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    text-align: left;
 }
 
 th, td {
     padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 th {
-    color: #00f0ff;
+    color: #f59e0b;
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+td {
+    font-size: 0.95rem;
+    color: #e2e8f0;
 }
 
 .action-btn {
-    padding: 6px 12px;
+    width: auto;
+    padding: 5px 10px;
     font-size: 0.75rem;
-    border-radius: 6px;
     margin-right: 5px;
 }
 
-/* Modals */
+/* --- MODAL OVERLAY --- */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(10px);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
 }
 
-.modal-card {
-    background: rgba(15, 23, 42, 0.95);
-    border: 1px solid #00f0ff;
+.modal-content {
+    background: #0f172a;
+    border: 1px solid #f59e0b;
+    padding: 25px;
     border-radius: 16px;
-    padding: 30px;
-    max-width: 600px;
     width: 90%;
+    max-width: 750px;
     max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
 }
 
-.hidden { display: none !important; }
-.divider { border: 0; height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0; }
-.error-msg { color: #f43f5e; text-align: center; margin-top: 15px; font-weight: 700; }
+/* --- UTILITY & ERROR CLASSES --- */
+.hidden {
+    display: none !important;
+}
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+.divider {
+    border: 0;
+    height: 1px;
+    background: rgba(0, 240, 255, 0.2);
+    margin: 20px 0;
+}
+
+.error-msg {
+    color: #ef4444;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+}
+
+/* --- RESPONSIVE MOBILE FIXES --- */
+@media (max-width: 600px) {
+    .glow-text {
+        font-size: 1.8rem;
+    }
+    .tab-header {
+        flex-direction: column;
+    }
+    .dash-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }
