@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TN PEAKY BLINDERS - RP Portal</title>
+    <title>TN PEAKY BLINDERS - Gaming Portal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,31 +24,31 @@
                 <button id="tab-visitor-btn" onclick="switchTab('visitor')">VISITOR</button>
             </div>
 
-            <!-- Admin / Personal User Login (Default Visible) -->
+            <!-- Admin / Personal User Login -->
             <div id="user-login-box">
-                <p class="subtitle">Enter Personal Credentials</p>
+                <p class="subtitle">Enter Personal Access Keys</p>
                 <div class="form-group">
                     <input type="text" id="personal-user" placeholder="Personal Username (e.g. ponnarasu.17)">
                     <input type="password" id="personal-pass" placeholder="Password">
-                    <button onclick="loginPersonalUser()" class="btn-success">LOGIN TO DASHBOARD</button>
+                    <button onclick="loginPersonalUser()" class="btn-success">AUTHENTICATE & ENTER</button>
                 </div>
             </div>
 
             <!-- Old Member Registration Entry -->
             <div id="old-member-box" class="hidden">
-                <p class="subtitle">Enter Squad Credentials to Register</p>
+                <p class="subtitle">Enter Squad Pass to Register</p>
                 <div class="form-group">
                     <input type="text" id="common-user" placeholder="Common Username">
                     <input type="password" id="common-pass" placeholder="Common Password">
-                    <button onclick="verifyCommonLogin()">ENTER REGISTRATION</button>
+                    <button onclick="verifyCommonLogin()" class="btn-success">ENTER REGISTRATION</button>
                 </div>
             </div>
 
             <!-- Visitor Access Box -->
             <div id="visitor-login-box" class="hidden">
-                <p class="subtitle">Guest / Visitor Access Portal</p>
+                <p class="subtitle">Guest Access Channel</p>
                 <div class="form-group">
-                    <input type="text" id="visitor-name" placeholder="Enter Your Name / In-Game Name">
+                    <input type="text" id="visitor-name" placeholder="Enter Player Name / Gamer Tag">
                     <button onclick="loginVisitor()" class="btn-visitor">ENTER AS VISITOR 👁️</button>
                 </div>
             </div>
@@ -58,63 +58,64 @@
 
         <!-- STEP 2: MEMBER REGISTRATION FORM -->
         <div id="step-2" class="card hidden">
-            <h2 class="welcome-heading">WELCOME FOR ALL OLD TNPB MEMBERS</h2>
-            <form id="member-form" onsubmit="submitMemberData(event)">
+            <h2>MEMBER REGISTRATION</h2>
+            <form id="member-form">
                 <div class="form-grid">
-                    <input type="text" id="game-name" placeholder="Game User Name" required>
+                    <input type="text" id="game-name" placeholder="In-Game Name" required>
                     <input type="number" id="game-level" placeholder="Game Level" required>
-                    <input type="text" id="game-rank" placeholder="Rank / Member Position" required>
+                    <input type="text" id="game-rank" placeholder="Squad Rank / Position" required>
                     <input type="text" id="fam-name" placeholder="Current Fam Name" required>
                 </div>
                 <hr class="divider">
-                <h3 style="color:#38bdf8; margin-bottom:10px;">Create Personal Credentials</h3>
+                <p class="subtitle" style="text-align:left; color:#00f0ff;">Set Personal Login Credentials</p>
                 <div class="form-grid">
                     <input type="text" id="new-user" placeholder="New Personal Username" required>
-                    <input type="password" id="new-pass" placeholder="New Personal Password" required>
+                    <input type="password" id="new-pass" placeholder="New Password" required>
+                    <input type="password" id="confirm-pass" placeholder="Confirm Password" required>
                 </div>
-                <button type="submit" class="btn-success">SUBMIT FOR APPROVAL</button>
+                <button type="submit" class="btn-success" style="margin-top:15px;">SUBMIT FOR APPROVAL</button>
             </form>
         </div>
 
         <!-- STEP 3: SUCCESS NOTICE -->
         <div id="step-3" class="card hidden">
-            <h2>Registration Submitted!</h2>
-            <p style="color:#cbd5e1; margin:15px 0;">Unga details successfully send aaiduchu. Admin accept pannadhum login aagum!</p>
-            <button onclick="location.reload()">Back to Login</button>
+            <h2>REGISTRATION SENT!</h2>
+            <p style="color:#cbd5e1; text-align:center; margin:20px 0;">Your profile has been transmitted to the Cloud. Admin approval is pending!</p>
+            <button onclick="location.reload()" class="btn-success">RETURN TO LOGIN</button>
         </div>
 
         <!-- STEP 4: MEMBER / ADMIN DASHBOARD -->
         <div id="member-dashboard" class="card hidden">
-            <div class="role-badge" id="dash-role-badge">ROLE: MEMBER</div>
+            <div style="text-align:center;">
+                <div class="role-badge" id="dash-role-badge">ROLE: MEMBER</div>
+            </div>
             
-            <h2>WELCOME BACK, <span id="dash-player-name" style="color:#38bdf8;"></span>!</h2>
+            <h1 style="font-size:1.5rem;">WELCOME, <span id="dash-player-name" style="color:#00f0ff;"></span></h1>
             
             <div id="member-info-panel" class="user-stats">
-                <p><strong>Game Name:</strong> <span id="dash-game-name"></span></p>
-                <p><strong>Level:</strong> <span id="dash-level"></span></p>
-                <p><strong>Rank:</strong> <span id="dash-rank"></span></p>
-                <p><strong>Fam Name:</strong> <span id="dash-fam"></span></p>
-                <p><strong>Status:</strong> <span style="color:#22c55e;">Approved Member</span></p>
+                <p><span>Game Name:</span> <strong id="dash-game-name" style="color:#38bdf8;"></strong></p>
+                <p><span>Level:</span> <strong id="dash-level" style="color:#f59e0b;"></strong></p>
+                <p><span>Rank:</span> <strong id="dash-rank" style="color:#a78bfa;"></strong></p>
+                <p><span>Fam Name:</span> <strong id="dash-fam" style="color:#f43f5e;"></strong></p>
+                <p><span>Status:</span> <strong style="color:#22c55e;">VERIFIED MEMBER</strong></p>
             </div>
 
             <div id="visitor-info-panel" class="user-stats hidden">
-                <p style="text-align:center; color:#a78bfa;">👋 Welcome Visitor! TNPB Public Hub Access Mode Active.</p>
+                <p style="text-align:center; color:#a78bfa;">👋 Welcome Visitor! Public Viewer Mode Active.</p>
             </div>
 
-            <!-- Notice Banner Button -->
-            <button onclick="openNoticeModal()" class="btn-notice">📢 Notice for TNPB members</button>
+            <button onclick="openNoticeModal()" class="btn-notice">📢 ANNOUNCEMENT NOTICE</button>
 
-            <!-- Admin Only Control Panel Button -->
             <div id="admin-only-tools" class="hidden">
-                <button onclick="showAdminPanel()" class="btn-admin" style="margin-bottom:10px;">⚙️ OPEN ADMIN PANEL</button>
+                <button onclick="showAdminPanel()" class="btn-admin" style="margin-bottom:12px;">⚙️ OPEN ADMIN CONTROL PANEL</button>
             </div>
 
-            <button onclick="location.reload()" class="btn-danger">LOGOUT</button>
+            <button onclick="location.reload()" class="btn-danger">DISCONNECT / LOGOUT</button>
         </div>
 
         <!-- ADMIN PANEL MODAL -->
         <div id="admin-panel" class="card wide hidden">
-            <h2>TNPB Admin Control Panel ⚙️</h2>
+            <h2>ADMIN CONTROL PANEL ⚙️</h2>
             <div style="overflow-x:auto;">
                 <table>
                     <thead>
@@ -130,33 +131,30 @@
                         </tr>
                     </thead>
                     <tbody id="admin-table-body">
-                        <!-- Dynamic Rows -->
                     </tbody>
                 </table>
             </div>
-            <button onclick="closeAdminPanel()">Close Admin View</button>
+            <button onclick="closeAdminPanel()" class="btn-danger" style="margin-top:15px;">CLOSE PANEL</button>
         </div>
 
         <!-- ANNOUNCEMENT NOTICE MODAL -->
         <div id="notice-modal" class="modal-overlay hidden">
             <div class="modal-card">
-                <h2>📢 Notice for TNPB Members</h2>
+                <h2>📢 OFFICIAL ANNOUNCEMENT</h2>
                 <div>
                     <div class="notice-section">
-                        <h4>🇬🇧 English Announcement:</h4>
-                        <p>Sorry for all TNPB members 🙏. Due to some technical issues 🛠️ and family development reasons 📈, the <strong>TNPB Fam</strong> is temporarily closed 🚫.</p>
-                        <p>Until further notice, all TNPB members are humbly requested to join the <strong>TNB (TN BROTHERS)</strong> family 🤝.</p>
-                        <p>Once TNPB family development is completed, updates will be announced on this website and on Discord 🎮. Thank you for your patience! ❤️</p>
+                        <h4 style="color:#00f0ff;">🇬🇧 English Announcement:</h4>
+                        <p style="margin-top:5px; color:#cbd5e1;">Sorry for all TNPB members 🙏. Due to technical maintenance 🛠️ and development reasons 📈, the <strong>TNPB Fam</strong> is temporarily closed 🚫.</p>
+                        <p style="color:#cbd5e1;">Until further notice, all members are requested to join <strong>TNB (TN BROTHERS)</strong> 🤝.</p>
                     </div>
                     <hr class="divider">
                     <div class="notice-section">
-                        <h4>🇮🇳 Tamil Announcement:</h4>
-                        <p>TNPB உறுப்பினர்கள் அனைவருக்கும் மன்னிக்கவும் 🙏. சில தொழில்நுட்ப கோளாறுகள் 🛠️ மற்றும் Fam Development காரணங்களால், தற்காலிகமாக TNPB Fam மூடப்பட்டுள்ளது 🚫.</p>
-                        <p>அதுவரை அனைத்து TNPB உறுப்பினர்களும் <strong>TNB (TN BROTHERS)</strong> Fam-இல் இணையுமாறு தாழ்மையுடன் கேட்டுக்கொள்ளப்படுகிறீர்கள் 🤝.</p>
-                        <p>TNPB Fam பணிகள் முடிந்த பிறகு, இந்த Website மற்றும் Discord-இல் அறிவிக்கப்படும் 🎮. அதுவரை அனைவரும் பொறுமை காத்து TN BROTHERS Fam-இல் இணையுமாறு கேட்டுக்கொள்கிறோம்! ❤️</p>
+                        <h4 style="color:#00f0ff;">🇮🇳 Tamil Announcement:</h4>
+                        <p style="margin-top:5px; color:#cbd5e1;">TNPB உறுப்பினர்கள் அனைவருக்கும் மன்னிக்கவும் 🙏. Fam Development காரணங்களால், தற்காலிகமாக TNPB Fam மூடப்பட்டுள்ளது 🚫.</p>
+                        <p style="color:#cbd5e1;">அதுவரை அனைவரும் <strong>TNB (TN BROTHERS)</strong> Fam-இல் இணையுமாறு கேட்டுக்கொள்ளப்படுகிறீர்கள்! ❤️</p>
                     </div>
                 </div>
-                <button onclick="closeNoticeModal()" class="btn-danger">Close Notice</button>
+                <button onclick="closeNoticeModal()" class="btn-danger" style="margin-top:20px;">CLOSE</button>
             </div>
         </div>
 
@@ -164,5 +162,4 @@
 
     <script type="module" src="app.js"></script>
 </body>
-                                                                           </html>
-                    
+</html>
