@@ -1,20 +1,21 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Firebase Configuration
+// Firebase Configuration with Database URL
 const firebaseConfig = {
   apiKey: "AIzaSyBrGyZQmhx-83iqUt1SBsFDXECOEFYNQs0",
   authDomain: "tnpb-portal.firebaseapp.com",
   projectId: "tnpb-portal",
+  databaseURL: "https://tnpb-portal-default-rtdb.firebaseio.com",
   storageBucket: "tnpb-portal.firebasestorage.app",
   messagingSenderId: "72478695514",
   appId: "1:72478695514:web:7515c8e1a60654c6e47863",
   measurementId: "G-FZN9MTMKGM"
 };
 
-// Initialize Firebase & Firestore with Explicit Default Database
+// Initialize Firebase & Firestore
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app, "(default)");
+const db = getFirestore(app);
 
 // Global Array for Cloud Sync
 window.allMembersList = [];
@@ -70,7 +71,7 @@ window.verifyCommonLogin = function() {
     }
 };
 
-// Submit Member Form Direct Execution
+// Submit Member Form Execution
 window.submitMemberForm = async function() {
     try {
         const gameName = document.getElementById('game-name').value.trim();
