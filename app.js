@@ -16,7 +16,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Tab Switcher
+// Global Array for Cloud Sync
+window.allMembersList = [];
+
+// Realtime Cloud Data Listener (Syncs across all Mobiles & PCs)
+onSnapshot(collection(db, "members"), (snapshot) => {
+    window.allMembersList = [];
+    snapshot.forEach((docSnap) => {
+        window.allMembersList.push({ id: docSnap.id, ...docSnap.data() });
+    });
+    
+    // Auto update Admin Table UI if panel is open
+    const adminPanel = document.getElementById('admin-panel');
+    if (adminPanel && !adminPanel.classList.contains('hidden')) {
+        renderAdminTableUI();
+    }
+});
+
+// UI Navigation Tab Switcher
 window.switchTab = function(tab) {
     document.getElementById('login-error').innerText = '';
     document.getElementById('old-member-box').classList.add('hidden');
@@ -39,7 +56,7 @@ window.switchTab = function(tab) {
     }
 };
 
-// Verify Common Credentials
+// Common Squad Pass Verification
 window.verifyCommonLogin = function() {
     const user = document.getElementById('common-user').value.trim();
     const pass = document.getElementById('common-pass').value.trim();
@@ -48,13 +65,13 @@ window.verifyCommonLogin = function() {
         document.getElementById('step-1').classList.add('hidden');
         document.getElementById('step-2').classList.remove('hidden');
     } else {
-        document.getElementById('login-error').innerText = "Invalid Common Credentials!";
+        document.getElementById('login-error').innerText = "INVALID SQUAD CREDENTIALS!";
     }
 };
 
-// Visitor Quick Login
+// Visitor Direct Access
 window.loginVisitor = function() {
-    const visitorName = document.getElementById('visitor-name').value.trim() || "Guest Visitor";
+    const visitorName = document.getElementById('visitor-name').value.trim() || "Guest Gamer";
     openDashboard({
         personalUser: visitorName,
         gameName: "Visitor Mode",
@@ -65,26 +82,13 @@ window.loginVisitor = function() {
     });
 };
 
-// Real-Time Cloud Personal Login Check
-window.allMembersList = [];
-
-// Realtime Listener - Fetch data instantly from Cloud for all devices
-onSnapshot(collection(db, "members"), (snapshot) => {
-    window.allMembersList = [];
-    snapshot.forEach((docSnap) => {
-        window.allMembersList.push({ id: docSnap.id, ...docSnap.data() });
-    });
-    if (!document.getElementById('admin-panel').classList.contains('hidden')) {
-        renderAdminTableUI();
-    }
-});
-
+// Personal & Admin User Login Execution
 window.loginPersonalUser = function() {
     const user = document.getElementById('personal-user').value.trim();
     const pass = document.getElementById('personal-pass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
-    // Super Admin Check
+    // Super Admin Master Verification
     if (user === "ponnarasu.17" && pass === "Pilot@17") {
         openDashboard({
             personalUser: "ponnarasu.17",
@@ -103,23 +107,27 @@ window.loginPersonalUser = function() {
         if (foundUser.status === 'Approved') {
             openDashboard(foundUser);
         } else {
-            errorMsg.innerText = "Account Pending! Admin approval required.";
+            errorMsg.innerText = "ACCOUNT PENDING! Admin approval required.";
         }
     } else {
-        errorMsg.innerText = "Incorrect Personal Username or Password!";
+        errorMsg.innerText = "INCORRECT USERNAME OR PASSWORD!";
     }
 };
 
+// Open Player / Admin Dashboard
 function openDashboard(user) {
     document.getElementById('step-1').classList.add('hidden');
     document.getElementById('member-dashboard').classList.remove('hidden');
     document.getElementById('dash-player-name').innerText = user.personalUser;
     
     const role = user.role || "MEMBER";
-    document.getElementById('dash-role-badge').innerText = `ROLE: ${role}`;
+    const roleBadge = document.getElementById('dash-role-badge');
+    roleBadge.innerText = `ROLE: ${role}`;
 
     if (role === "VISITOR") {
-        document.getElementById('dash-role-badge').style.background = "#8b5cf6";
+        roleBadge.style.background = "rgba(139, 92, 246, 0.2)";
+        roleBadge.style.borderColor = "#8b5cf6";
+        roleBadge.style.color = "#a78bfa";
         document.getElementById('member-info-panel').classList.add('hidden');
         document.getElementById('visitor-info-panel').classList.remove('hidden');
         document.getElementById('admin-only-tools').classList.add('hidden');
@@ -132,41 +140,59 @@ function openDashboard(user) {
         document.getElementById('visitor-info-panel').classList.add('hidden');
 
         if (role === "ADMIN") {
-            document.getElementById('dash-role-badge').style.background = "#eab308";
-            document.getElementById('dash-role-badge').style.color = "#000";
+            roleBadge.style.background = "rgba(245, 158, 11, 0.2)";
+            roleBadge.style.borderColor = "#f59e0b";
+            roleBadge.style.color = "#f59e0b";
             document.getElementById('admin-only-tools').classList.remove('hidden');
         } else {
+            roleBadge.style.background = "rgba(0, 240, 255, 0.15)";
+            roleBadge.style.borderColor = "#00f0ff";
+            roleBadge.style.color = "#00f0ff";
             document.getElementById('admin-only-tools').classList.add('hidden');
         }
     }
 }
 
-// Submit Member Form directly to Firestore Cloud
-window.submitMemberData = async function(e) {
-    e.preventDefault();
+// Form Submit Event Listener with Confirm Password Check
+document.addEventListener('DOMContentLoaded', () => {
+    const memberForm = document.getElementById('member-form');
+    if (memberForm) {
+        memberForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newPass = document.getElementById('new-pass').value.trim();
+            const confirmPass = document.getElementById('confirm-pass').value.trim();
 
-    const newMember = {
-        gameName: document.getElementById('game-name').value,
-        level: document.getElementById('game-level').value,
-        rank: document.getElementById('game-rank').value,
-        famName: document.getElementById('fam-name').value,
-        personalUser: document.getElementById('new-user').value.trim(),
-        personalPass: document.getElementById('new-pass').value.trim(),
-        status: 'Pending',
-        role: 'MEMBER',
-        createdAt: new Date().toISOString()
-    };
+            if (newPass !== confirmPass) {
+                alert("Passwords do not match! / கடவுச்சொல் பொருந்தவில்லை!");
+                return;
+            }
 
-    try {
-        await addDoc(collection(db, "members"), newMember);
-        document.getElementById('step-2').classList.add('hidden');
-        document.getElementById('step-3').classList.remove('hidden');
-    } catch (err) {
-        alert("Error saving data to Cloud Database!");
+            const newMember = {
+                gameName: document.getElementById('game-name').value,
+                level: document.getElementById('game-level').value,
+                rank: document.getElementById('game-rank').value,
+                famName: document.getElementById('fam-name').value,
+                personalUser: document.getElementById('new-user').value.trim(),
+                personalPass: newPass,
+                status: 'Pending',
+                role: 'MEMBER',
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                await addDoc(collection(db, "members"), newMember);
+                document.getElementById('step-2').classList.add('hidden');
+                document.getElementById('step-3').classList.remove('hidden');
+            } catch (err) {
+                console.error("Cloud Storage Error: ", err);
+                alert("Error saving data to Cloud Database: " + err.message);
+            }
+        });
     }
-};
+});
 
-// Admin Controls
+// Admin Control Panel UI Actions
 window.showAdminPanel = function() {
     document.getElementById('admin-panel').classList.remove('hidden');
     renderAdminTableUI();
@@ -181,7 +207,7 @@ function renderAdminTableUI() {
     tbody.innerHTML = '';
 
     if (window.allMembersList.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8">No Members Registered Yet in Cloud.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#94a3b8;">No Member Profiles Found in Cloud Database.</td></tr>';
         return;
     }
 
@@ -194,11 +220,11 @@ function renderAdminTableUI() {
             <td>${member.rank}</td>
             <td>${member.famName}</td>
             <td>${member.personalUser}</td>
-            <td><strong style="color:${member.role==='ADMIN'?'#eab308':'#38bdf8'}">${member.role || 'MEMBER'}</strong></td>
-            <td style="color:${member.status === 'Approved' ? '#22c55e' : '#eab308'}">${member.status}</td>
+            <td><strong style="color:${member.role==='ADMIN'?'#f59e0b':'#00f0ff'}">${member.role || 'MEMBER'}</strong></td>
+            <td style="color:${member.status === 'Approved' ? '#22c55e' : '#f59e0b'}">${member.status}</td>
             <td>
-                ${member.status === 'Pending' ? `<button onclick="approveMember('${id}')" class="action-btn btn-success">Accept</button>` : ''}
-                ${member.role !== 'ADMIN' ? `<button onclick="makeAdmin('${id}')" class="action-btn btn-admin">Make Admin</button>` : ''}
+                ${member.status === 'Pending' ? `<button onclick="approveMember('${id}')" class="action-btn btn-success">ACCEPT</button>` : ''}
+                ${member.role !== 'ADMIN' ? `<button onclick="makeAdmin('${id}')" class="action-btn btn-admin">MAKE ADMIN</button>` : ''}
             </td>
         `;
         tbody.appendChild(row);
@@ -213,8 +239,9 @@ window.approveMember = async function(docId) {
 window.makeAdmin = async function(docId) {
     const memberRef = doc(db, "members", docId);
     await updateDoc(memberRef, { role: "ADMIN", status: "Approved" });
-    alert("User Promoted to Cloud Admin!");
+    alert("User Promoted to Admin!");
 };
 
+// Announcement Modal Triggers
 window.openNoticeModal = function() { document.getElementById('notice-modal').classList.remove('hidden'); };
 window.closeNoticeModal = function() { document.getElementById('notice-modal').classList.add('hidden'); };
