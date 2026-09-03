@@ -70,7 +70,7 @@ window.verifyCommonLogin = function() {
     }
 };
 
-// Submit Member Form Function
+// SUBMIT MEMBER FORM FUNCTION (FIXED FOR BUTTON CLICK)
 window.submitMemberForm = async function() {
     try {
         const gameName = document.getElementById('game-name').value.trim();
@@ -249,18 +249,16 @@ window.makeAdmin = async function(docId) {
 window.openNoticeModal = function() { document.getElementById('notice-modal').classList.remove('hidden'); };
 window.closeNoticeModal = function() { document.getElementById('notice-modal').classList.add('hidden'); };
 
-// Register Event Listeners after DOM Load
+// Attach Event Listener After DOM Load
 document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submit-btn');
     if (submitBtn) {
         submitBtn.addEventListener('click', window.submitMemberForm);
     }
-    
-    // Start Gaming Background Particles Animation
     initGamingBackground();
 });
 
-// --- GAMING ANIMATED CANVAS BACKGROUND ---
+// GAMING ANIMATED CANVAS BACKGROUND
 function initGamingBackground() {
     const canvas = document.getElementById('bg-canvas');
     if (!canvas) return;
@@ -290,7 +288,6 @@ function initGamingBackground() {
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw animated cyber grid lines
         ctx.strokeStyle = 'rgba(0, 240, 255, 0.03)';
         ctx.lineWidth = 1;
         const gridSize = 50;
@@ -307,7 +304,6 @@ function initGamingBackground() {
             ctx.stroke();
         }
 
-        // Draw and update neon particles
         particles.forEach((p, i) => {
             p.x += p.vx;
             p.y += p.vy;
@@ -322,7 +318,6 @@ function initGamingBackground() {
             ctx.shadowColor = p.color;
             ctx.fill();
 
-            // Connect nearby particles with lines
             for (let j = i + 1; j < particles.length; j++) {
                 const p2 = particles[j];
                 const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
