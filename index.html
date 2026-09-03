@@ -14,18 +14,28 @@
     <div class="video-overlay"></div>
 
     <div class="container">
-        <!-- STEP 1: INITIAL LOGIN SELECTION -->
+        <!-- STEP 1: LOGIN & REGISTRATION PORTAL -->
         <div id="step-1" class="card">
             <h1>TN PEAKY BLINDERS</h1>
             
             <div class="tab-buttons">
-                <button id="tab-old-btn" class="active-tab" onclick="switchTab('old')">OLD FORM</button>
-                <button id="tab-user-btn" onclick="switchTab('user')">LOGIN</button>
+                <button id="tab-user-btn" class="active-tab" onclick="switchTab('user')">LOGIN</button>
+                <button id="tab-old-btn" onclick="switchTab('old')">OLD FORM</button>
                 <button id="tab-visitor-btn" onclick="switchTab('visitor')">VISITOR</button>
             </div>
 
+            <!-- Admin / Personal User Login (Default Visible) -->
+            <div id="user-login-box">
+                <p class="subtitle">Enter Personal Credentials</p>
+                <div class="form-group">
+                    <input type="text" id="personal-user" placeholder="Personal Username (e.g. ponnarasu.17)">
+                    <input type="password" id="personal-pass" placeholder="Password">
+                    <button onclick="loginPersonalUser()" class="btn-success">LOGIN TO DASHBOARD</button>
+                </div>
+            </div>
+
             <!-- Old Member Registration Entry -->
-            <div id="old-member-box">
+            <div id="old-member-box" class="hidden">
                 <p class="subtitle">Enter Squad Credentials to Register</p>
                 <div class="form-group">
                     <input type="text" id="common-user" placeholder="Common Username">
@@ -34,17 +44,7 @@
                 </div>
             </div>
 
-            <!-- User / Admin Personal Login -->
-            <div id="user-login-box" class="hidden">
-                <p class="subtitle">Enter Personal Credentials</p>
-                <div class="form-group">
-                    <input type="text" id="personal-user" placeholder="Personal Username">
-                    <input type="password" id="personal-pass" placeholder="Password">
-                    <button onclick="loginPersonalUser()" class="btn-success">LOGIN TO DASHBOARD</button>
-                </div>
-            </div>
-
-            <!-- Visitor Quick Access Box -->
+            <!-- Visitor Access Box -->
             <div id="visitor-login-box" class="hidden">
                 <p class="subtitle">Guest / Visitor Access Portal</p>
                 <div class="form-group">
@@ -76,7 +76,7 @@
             </form>
         </div>
 
-        <!-- STEP 3: SUCCESS / PENDING NOTICE -->
+        <!-- STEP 3: SUCCESS NOTICE -->
         <div id="step-3" class="card hidden">
             <h2>Registration Submitted!</h2>
             <p style="color:#cbd5e1; margin:15px 0;">Unga details successfully send aaiduchu. Admin accept pannadhum login aagum!</p>
@@ -137,7 +137,7 @@
             <button onclick="closeAdminPanel()">Close Admin View</button>
         </div>
 
-        <!-- ANNOUNCEMENT NOTICE MODAL (TAMIL + ENGLISH) -->
+        <!-- ANNOUNCEMENT NOTICE MODAL -->
         <div id="notice-modal" class="modal-overlay hidden">
             <div class="modal-card">
                 <h2>📢 Notice for TNPB Members</h2>
@@ -164,5 +164,5 @@
 
     <script type="module" src="app.js"></script>
 </body>
-</html>
-
+                                                                           </html>
+                    
