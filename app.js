@@ -29,14 +29,15 @@ import {
    FIREBASE CONFIG
    ========================================================= */
 const firebaseConfig = {
-    apiKey: "AIzaSyBrGyZQmh-83iqUt1SBsFDXECOEFYNQs",
-    authDomain: "tnpb-portal.firebaseapp.com",
-    projectId: "tnpb-portal",
-    storageBucket: "tnpb-portal.firebasestorage.app",
-    messagingSenderId: "72478695514",
-    appId: "1:72478695514:web:7515c8e1a60654c6e47863",
-    measurementId: "G-FZN9MTMKGM"
+  apiKey: "AIzaSyBrGyZQmhx-83iqUt1SBsFDXECOEFYNQs0",
+  authDomain: "tnpb-portal.firebaseapp.com",
+  projectId: "tnpb-portal",
+  storageBucket: "tnpb-portal.firebasestorage.app",
+  messagingSenderId: "72478695514",
+  appId: "1:72478695514:web:7515c8e1a60654c6e47863",
+  measurementId: "G-FZN9MTMKGM"
 };
+
 
 /* =========================================================
    INITIALIZE FIREBASE
