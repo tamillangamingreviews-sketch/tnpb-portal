@@ -29,7 +29,7 @@ import {
    FIREBASE CONFIG
    ========================================================= */
 const firebaseConfig = {
-    apiKey: "AIzaSyBrGyZQmh-83iqUt1SBsFDXECOEFYNQs0",
+    apiKey: "AIzaSyBrGyZQmh-83iqUt1SBsFDXECOEFYNQs",
     authDomain: "tnpb-portal.firebaseapp.com",
     projectId: "tnpb-portal",
     storageBucket: "tnpb-portal.firebasestorage.app",
