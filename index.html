@@ -13,7 +13,8 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="container">
-        <!-- HEADER / TITLE -->
+
+        <!-- HEADER -->
         <header>
             <h1 class="glow-text">TN PEAKY BLINDERS</h1>
             <p class="subtitle">OFFICIAL SQUAD DATABASE PORTAL</p>
@@ -22,106 +23,145 @@
         <!-- STEP 1: LOGIN & TAB SELECTION -->
         <div id="step-1" class="card">
             <div class="tab-header">
-                <button id="tab-old-btn" class="tab-btn active-tab" onclick="switchTab('old')">Squad Member Reg</button>
-                <button id="tab-user-btn" class="tab-btn" onclick="switchTab('user')">Personal / Admin Login</button>
-                <button id="tab-visitor-btn" class="tab-btn" onclick="switchTab('visitor')">Visitor Access</button>
+                <button id="tab-old-btn" class="tab-btn active-tab" onclick="switchTab('old')">
+                    Squad Member Reg
+                </button>
+                <button id="tab-user-btn" class="tab-btn" onclick="switchTab('user')">
+                    Personal / Admin Login
+                </button>
+                <button id="tab-visitor-btn" class="tab-btn" onclick="switchTab('visitor')">
+                    Visitor Access
+                </button>
             </div>
 
-            <!-- OPTION A: SQUAD MEMBER REGISTRATION PASS -->
+            <!-- OPTION A: SQUAD MEMBER REGISTRATION -->
             <div id="old-member-box" class="tab-content">
                 <h3>ENTER COMMON SQUAD PASS</h3>
-                <input type="text" id="common-user" placeholder="Squad Identity Name">
-                <input type="password" id="common-pass" placeholder="Squad Security Password">
-                <button onclick="verifyCommonLogin()" class="btn-primary">VERIFY SQUAD ACCESS</button>
+                <input type="text" id="common-user" placeholder="Squad Identity Name" autocomplete="off">
+                <input type="password" id="common-pass" placeholder="Squad Security Password" autocomplete="off">
+                <button onclick="verifyCommonLogin()" class="btn-primary">
+                    VERIFY SQUAD ACCESS
+                </button>
             </div>
 
-            <!-- OPTION B: PERSONAL & ADMIN LOGIN -->
+            <!-- OPTION B: PERSONAL / ADMIN LOGIN -->
             <div id="user-login-box" class="tab-content hidden">
                 <h3>PERSONAL LOGIN PORTAL</h3>
-                <input type="text" id="personal-user" placeholder="Personal Username">
-                <input type="password" id="personal-pass" placeholder="Personal Password">
-                <button onclick="loginPersonalUser()" class="btn-primary">LOGIN TO PORTAL</button>
+                <input type="email" id="personal-user" placeholder="Registered Email Address" autocomplete="email">
+                <input type="password" id="personal-pass" placeholder="Personal Password" autocomplete="current-password">
+                <button onclick="loginPersonalUser()" class="btn-primary">
+                    LOGIN TO PORTAL
+                </button>
             </div>
 
-            <!-- OPTION C: VISITOR MODE ACCESS -->
+            <!-- OPTION C: VISITOR MODE -->
             <div id="visitor-login-box" class="tab-content hidden">
                 <h3>VISITOR / GUEST ENTER</h3>
-                <input type="text" id="visitor-name" placeholder="Enter Your Guest Name">
-                <button onclick="loginVisitor()" class="btn-primary">ENTER AS VISITOR</button>
+                <input type="text" id="visitor-name" placeholder="Enter Your Guest Name" maxlength="40">
+                <button onclick="loginVisitor()" class="btn-primary">
+                    ENTER AS VISITOR
+                </button>
             </div>
 
             <p id="login-error" class="error-msg"></p>
         </div>
 
-        <!-- STEP 2: MEMBER REGISTRATION FORM -->
+        <!-- STEP 2: MEMBER REGISTRATION -->
         <div id="step-2" class="card hidden">
             <h2>MEMBER REGISTRATION</h2>
             <form id="member-form" onsubmit="return false;">
                 <div class="form-grid">
-                    <input type="text" id="game-name" placeholder="In-Game Name" required>
-                    <input type="number" id="game-level" placeholder="Game Level" required>
-                    <input type="text" id="game-rank" placeholder="Squad Rank / Position" required>
-                    <input type="text" id="fam-name" placeholder="Current Fam Name" required>
+                    <input type="text" id="game-name" placeholder="In-Game Name" maxlength="40" required>
+                    <input type="number" id="game-level" placeholder="Game Level" min="1" max="9999" required>
+                    <input type="text" id="game-rank" placeholder="Squad Rank / Position" maxlength="40" required>
+                    <input type="text" id="fam-name" placeholder="Current Fam Name" maxlength="40" required>
                 </div>
+
                 <hr class="divider">
-                <p class="subtitle" style="text-align:left; color:#00f0ff;">Set Personal Login Credentials</p>
+
+                <p class="subtitle" style="text-align:left; color:#00f0ff;">
+                    Set Personal Login Credentials
+                </p>
+
                 <div class="form-grid">
-                    <input type="text" id="new-user" placeholder="New Personal Username" required>
-                    <input type="password" id="new-pass" placeholder="New Password" required>
-                    <input type="password" id="confirm-pass" placeholder="Confirm Password" required>
+                    <input type="text" id="new-user" placeholder="Personal Username" maxlength="30" autocomplete="username" required>
+                    <input type="email" id="new-email" placeholder="Email Address" maxlength="100" autocomplete="email" required>
+                    <input type="password" id="new-pass" placeholder="New Password" minlength="6" autocomplete="new-password" required>
+                    <input type="password" id="confirm-pass" placeholder="Confirm Password" minlength="6" autocomplete="new-password" required>
                 </div>
-                <button type="button" id="submit-btn" class="btn-success" style="margin-top:20px;">SUBMIT FOR APPROVAL</button>
+
+                <button type="button" id="submit-btn" class="btn-success" style="margin-top:20px;">
+                    SUBMIT FOR APPROVAL
+                </button>
             </form>
         </div>
 
-        <!-- STEP 3: APPROVAL PENDING MESSAGE -->
+        <!-- STEP 3: APPROVAL PENDING -->
         <div id="step-3" class="card hidden">
-            <h2 style="color: #00f0ff;">REGISTRATION SENT!</h2>
+            <h2 style="color:#00f0ff;">REGISTRATION SENT!</h2>
             <p>Your details have been recorded in the Cloud Database.</p>
-            <p style="color: #f59e0b; font-weight: bold; margin-top: 10px;">Status: Pending Admin Approval</p>
-            <p style="font-size: 14px; color: #94a3b8; margin-top: 15px;">Ask Boss / Leader to approve your account to access your profile dashboard.</p>
-            <button onclick="location.reload()" class="btn-primary" style="margin-top:20px;">BACK TO LOGIN</button>
+            <p style="color:#f59e0b; font-weight:bold; margin-top:10px;">
+                Status: Pending Admin Approval
+            </p>
+            <p style="font-size:14px; color:#94a3b8; margin-top:15px;">
+                Ask Boss / Leader to approve your account to access your profile dashboard.
+            </p>
+            <button onclick="location.reload()" class="btn-primary" style="margin-top:20px;">
+                BACK TO LOGIN
+            </button>
         </div>
 
-        <!-- MEMBER & ADMIN DASHBOARD -->
+        <!-- MEMBER / ADMIN DASHBOARD -->
         <div id="member-dashboard" class="card hidden">
             <div class="dash-header">
                 <h2>PLAYER DASHBOARD</h2>
                 <span id="dash-role-badge" class="badge">ROLE: MEMBER</span>
             </div>
 
-            <!-- Standard Member Profile Info -->
+            <!-- MEMBER PROFILE -->
             <div id="member-info-panel" class="profile-card">
                 <h3>Gamer Identity Details</h3>
                 <p><strong>Personal User:</strong> <span id="dash-player-name" style="color:#00f0ff;">-</span></p>
+                <p><strong>Email:</strong> <span id="dash-email">-</span></p>
                 <p><strong>In-Game Name:</strong> <span id="dash-game-name">-</span></p>
                 <p><strong>Game Level:</strong> <span id="dash-level">-</span></p>
                 <p><strong>Squad Rank:</strong> <span id="dash-rank">-</span></p>
                 <p><strong>Fam Name:</strong> <span id="dash-fam">-</span></p>
             </div>
 
-            <!-- Visitor Guest Info Panel -->
+            <!-- VISITOR INFO -->
             <div id="visitor-info-panel" class="profile-card hidden">
                 <h3>Visitor Portal Access</h3>
-                <p style="color:#a78bfa;">Welcome Guest! You are currently viewing the TNPB Public Portal.</p>
+                <p style="color:#a78bfa;">
+                    Welcome Guest! You are currently viewing the TNPB Public Portal.
+                </p>
             </div>
 
-            <!-- Admin Tools Trigger (Only Visible to Admin) -->
+            <!-- ADMIN CONTROLS -->
             <div id="admin-only-tools" class="admin-box hidden">
                 <h3 style="color:#f59e0b;">Leader Admin Controls</h3>
-                <button onclick="showAdminPanel()" class="btn-admin">OPEN SQUAD MANAGEMENT PANEL</button>
-                <button onclick="openNoticeModal()" class="btn-admin" style="background:#8b5cf6; margin-top:10px;">POST SQUAD NOTICE</button>
+                <button onclick="showAdminPanel()" class="btn-admin">
+                    OPEN SQUAD MANAGEMENT PANEL
+                </button>
+                <button onclick="openNoticeModal()" class="btn-admin" style="background:#8b5cf6; margin-top:10px;">
+                    POST SQUAD NOTICE
+                </button>
             </div>
 
-            <button onclick="location.reload()" class="btn-danger" style="margin-top:25px;">LOGOUT PORTAL</button>
+            <!-- LOGOUT -->
+            <button onclick="logoutPortal()" class="btn-danger" style="margin-top:25px;">
+                LOGOUT PORTAL
+            </button>
         </div>
 
-        <!-- ADMIN MANAGEMENT MODAL / PANEL -->
+        <!-- ADMIN MANAGEMENT MODAL -->
         <div id="admin-panel" class="card hidden modal-overlay">
             <div class="modal-content">
                 <div class="dash-header">
                     <h2 style="color:#f59e0b;">SQUAD MEMBERS CONTROL PANEL</h2>
-                    <button onclick="closeAdminPanel()" class="btn-danger" style="width:auto; padding:5px 15px;">X CLOSE</button>
+                    <button onclick="closeAdminPanel()" class="btn-danger" style="width:auto; padding:5px 15px;">
+                        X CLOSE
+                    </button>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -138,26 +178,30 @@
                             </tr>
                         </thead>
                         <tbody id="admin-table-body">
-                            <!-- Cloud Members Data Injected Here -->
+                            <!-- Firebase members inserted here -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- SQUAD ANNOUNCEMENT MODAL -->
+        <!-- NOTICE MODAL -->
         <div id="notice-modal" class="card hidden modal-overlay">
             <div class="modal-content" style="max-width:500px;">
                 <h2 style="color:#8b5cf6;">POST ANNOUNCEMENT</h2>
-                <textarea id="notice-text" placeholder="Type squad notice here..." rows="4" style="width:100%; margin-top:15px; background:rgba(0,0,0,0.5); color:#fff; border:1px solid #8b5cf6; padding:10px; border-radius:8px;"></textarea>
-                <button onclick="alert('Notice Posted Successfully!'); closeNoticeModal();" class="btn-primary" style="margin-top:15px;">PUBLISH NOTICE</button>
-                <button onclick="closeNoticeModal()" class="btn-danger" style="margin-top:10px;">CANCEL</button>
+                <textarea id="notice-text" placeholder="Type squad notice here..." rows="4" maxlength="500"></textarea>
+                <button onclick="publishNotice()" class="btn-primary" style="margin-top:15px;">
+                    PUBLISH NOTICE
+                </button>
+                <button onclick="closeNoticeModal()" class="btn-danger" style="margin-top:10px;">
+                    CANCEL
+                </button>
             </div>
         </div>
 
     </div>
 
-    <!-- Firebase SDK Import & Main Application JS -->
+    <!-- Firebase + Application JS -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
